@@ -1,9 +1,9 @@
-name: Post to Reddit Daily
+name: Test Reddit Post
 
 on:
+  workflow_dispatch:  # Allows manual trigger
   schedule:
     - cron: '0 12 * * *'  # Runs daily at 12:00 UTC
-  workflow_dispatch:  # Allows manual trigger
 
 jobs:
   run-script:
@@ -31,4 +31,5 @@ jobs:
           REDDIT_USERNAME: ${{ secrets.REDDIT_USERNAME }}
           REDDIT_PASSWORD: ${{ secrets.REDDIT_PASSWORD }}
           REDDIT_SUBREDDIT: ${{ secrets.REDDIT_SUBREDDIT }}
+          GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
         run: python post_to_reddit.py
