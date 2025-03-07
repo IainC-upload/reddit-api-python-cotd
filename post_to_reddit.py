@@ -32,8 +32,18 @@ def post_to_reddit(title, text):
     reddit.subreddit(subreddit).submit(title, selftext=text)
 
 def main():
-    title, text = get_google_sheet_data()
-    post_to_reddit(title, text)
+    try:
+        print("Fetching Google Sheet data...")
+        title, text = get_google_sheet_data()
+        print(f"Title: {title}")
+        print(f"Text: {text[:50]}...")  # Print a snippet for privacy
+
+        print("Posting to Reddit...")
+        post_to_reddit(title, text)
+        print("Post successful!")
+
+    except Exception as e:
+        print(f"Error: {e}")
 
 if __name__ == "__main__":
     main()
