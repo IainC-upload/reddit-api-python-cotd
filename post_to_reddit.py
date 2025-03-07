@@ -10,13 +10,23 @@ def get_google_sheet_data():
     creds = ServiceAccountCredentials.from_json_keyfile_dict(creds_json, ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"])
     
     client = gspread.authorize(creds)
-    sheet = client.open("Reddit Card of the Day").sheet1  # Ensure this matches your sheet name
-    data = sheet.row_values(1)  # Get the first row
     
-    if len(data) < 2:
-        raise ValueError("Sheet must have at least two columns: title and text")
-    
-    return data[0], data[1]
+    try:
+        print("Opening Google Sheet...")
+        sheet = client.open("Reddit Card of the Day").sheet1  # Ensure this matches your sheet name
+        
+        print("Fetching first row data...")
+        data = sheet.row_values(1)  # Get the first row
+        print(f"Raw data: {data}")
+
+        if len(data) < 2:
+            raise ValueError("Sheet must have at least two columns: title and text")
+        
+        return data[0], data[1]
+    except Exception as e:
+        print(f"Error retrieving data: {e}")
+        raise
+
 
 def post_to_reddit(title, text):
     # Authenticate with Reddit
